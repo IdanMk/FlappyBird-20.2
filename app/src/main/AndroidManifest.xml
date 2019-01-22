@@ -16,7 +16,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".StartGame" />
-        <activity android:name=".gameOver"></activity>
+        <activity android:name=".gameOver" />
+        <activity
+            android:name=".startDialog"
+            android:theme="@style/AppTheme.PopMe" />
     </application>
 
 </manifest>

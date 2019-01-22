@@ -21,9 +21,13 @@ public class MainActivity extends Activity {
         PlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,StartGame.class);
+
+                Intent intent2 = new Intent(MainActivity.this,StartGame.class);
+                startActivity(intent2);
+
+                Intent intent = new Intent(MainActivity.this,startDialog.class);
                 startActivity(intent);
-                finish();
+
             }
         });
     }

@@ -1,50 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".gameOver"
+    android:padding="40dp"
     android:orientation="vertical"
-    android:background="@drawable/gameoverbackground">
-
-    <ImageView
-        android:layout_marginTop="35dp"
-        android:layout_marginStart="55dp"
-        android:layout_marginEnd="55dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/gameover"/>
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="YOUR POINTS: "
-        android:layout_gravity="center"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"/>
+    android:background="@drawable/background_day">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp">
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/gameover" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="YOUR POINTS: "
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:id="@+id/gameover_gamepoints"/>
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/retryicon"/>
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/startbutton"
+            android:id="@+id/gameover_gamerestart"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+        <ImageButton
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/records"
+            android:id="@+id/gameover_recordlist"/>
+
+        <ImageButton
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:background="@drawable/menu"
+            android:id="@+id/gameover_backtomenu"/>
+
 
     </LinearLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

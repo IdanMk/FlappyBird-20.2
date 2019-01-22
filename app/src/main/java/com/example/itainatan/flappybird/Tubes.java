@@ -3,6 +3,7 @@ package com.example.itainatan.flappybird;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.RectF;
 
 import java.util.Random;
 
@@ -99,21 +100,28 @@ public class Tubes{
         this.topTubeY = new int[this.numOfTubes];
     }
 
-    public void DisplayTubes(int dWidth){
+    public void DisplayTubes(int dWidth, int i){
         Random random = new Random();
-        for (int i = 0; i < numOfTubes; i++) {
             this.tubeX[i] = dWidth + i*this.distancebetweenTubes;
-            this.topTubeY[i] = this.minTubeoffset + random.nextInt(this.maxTubeoffset - this.minTubeoffset + 1);
-
-
-        }
+            this.topTubeY[i] = this.minTubeoffset +  random.nextInt(this.maxTubeoffset - this.minTubeoffset + 1);
     }
 
-    public void DrawTubes(Canvas canvas){
-        for (int i = 0;i<this.numOfTubes;i++){
-        canvas.drawBitmap(this.topTube, this.tubeX[i], this.topTubeY[i] - this.topTube.getHeight(), null);
+    public void DrawTubes(Canvas canvas,int i){
+        canvas.drawBitmap(this.topTube, this.tubeX[i],this.topTubeY[i] - this.topTube.getHeight(), null);
         canvas.drawBitmap(this.bottomTube, this.tubeX[i], this.topTubeY[i] + this.gap, null);
+    }
+
+    public void updateTubes(int i){
+        this.tubeX[i] -= this.tubeVelocity;
+    }
+
+    public void GenerateNewTube(int dWidth,int i) {
+        Random random = new Random();
+        if (this.tubeX[i] < -this.topTube.getWidth()) {
+            this.tubeX[i] += this.numOfTubes * this.distancebetweenTubes;
+            this.topTubeY[i] = this.minTubeoffset + random.nextInt(this.maxTubeoffset - this.minTubeoffset + 1);
         }
     }
+
 
 }

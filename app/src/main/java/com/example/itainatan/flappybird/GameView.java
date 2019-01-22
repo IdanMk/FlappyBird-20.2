@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.renderscript.Sampler;
 import android.view.Display;
@@ -31,28 +32,30 @@ class GameView extends View {
     Context contextCopy;
     Bird bird;
     Tubes tubes;
+    Coins coin;
     final int UPDATE_MILLIS = 20;
     TextView pointsTV;
     Bitmap background;
+    Bitmap nightBackground;
     Display display;
     Point point;
     int dWidth ,dHeight;
     Rect rect;
     boolean gameState = false;
-    int numOfCoins = 5;
-    int [] coinX = new int[numOfCoins];
-    int [] coinY = new int[numOfCoins];
     Random random;
     int gamePoints = 0 ;
     boolean isDead;
     Paint paint;
-    int Coinoffset = 40;
     Bitmap topTube,bottomTube;
+    boolean isFirstRun = true;
+
+    MediaPlayer mp;
+
+
+    Bitmap[] gameStart;
 
     Bitmap[] birds;
     Bitmap[] coins;
-
-    int coinFrame = 0;
 
     public GameView(Context context) {
         super(context);
@@ -65,13 +68,15 @@ class GameView extends View {
             }
         };
         background = BitmapFactory.decodeResource(getResources(), R.drawable.background_day);
+        nightBackground = BitmapFactory.decodeResource(getResources(), R.drawable.nightbackground);
         display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
         point = new Point();
         display.getSize(point);
         dWidth = point.x;
         dHeight = point.y;
-        rect = new Rect(0, 0, dWidth, dHeight);
+        rect = new Rect(0, 0, dWidth,dHeight);
         random = new Random();
+        mp = MediaPlayer.create(contextCopy,R.raw.point);
 
         // Bird initalize
         bird = new Bird();
@@ -81,7 +86,7 @@ class GameView extends View {
         birds[2] = BitmapFactory.decodeResource(getResources(), R.drawable.yellowbird_3);
         bird.setBirds(birds);
         bird.setBirdX(dWidth / 2 - bird.getBirds()[0].getWidth());
-        bird.setBirdY(dWidth / 2 - bird.getBirds()[0].getHeight()/2);
+        bird.setBirdY(dHeight / 2 - bird.getBirds()[0].getHeight()/2);
         bird.setCurrentBirdFrame(0);
         bird.setVelocity(0);
         bird.setGravity(3);
@@ -89,7 +94,7 @@ class GameView extends View {
         // Tubes initalization
         tubes =  new Tubes();
         tubes.setGap(300);
-        tubes.setNumOfTubes(3);
+        tubes.setNumOfTubes(5);
         tubes.setTopTubeY();
         tubes.setTubeX();
         tubes.setDistancebetweenTubes(dWidth * 7/8);
@@ -102,13 +107,24 @@ class GameView extends View {
         tubes.setTopTube(topTube);
 
 
-
         // coins initalize
         coins = new Bitmap[4];
         coins[0] = BitmapFactory.decodeResource(getResources(),R.drawable.coin_1);
         coins[1] = BitmapFactory.decodeResource(getResources(),R.drawable.coin_2);
         coins[2] = BitmapFactory.decodeResource(getResources(),R.drawable.coin_3);
         coins[3] = BitmapFactory.decodeResource(getResources(),R.drawable.coin_4);
+        coin = new Coins();
+        coin.setCoins(coins);
+        coin.setCoinOffset(40);
+        coin.setNumOfCoins(5);
+        coin.setCoinX();
+        coin.setCoinY();
+        coin.setDistancebetweenCoins(dWidth * 7/8);
+        coin.setCoinVelocity(12);
+        coin.setMinOffset(tubes.getGap()/2);
+        coin.setMaxOffset(dHeight - tubes.getMinTubeoffset() - tubes.getGap());
+
+
 
         // points counter text view
         pointsTV = new TextView(getContext());
@@ -117,34 +133,34 @@ class GameView extends View {
         paint.setColor(Color.BLACK);
         paint.setTextSize(48);
 
-        tubes.DisplayTubes(dWidth);
-//            coinX[i] = dWidth + i*distancebetweenTubes + distancebetweenTubes/2;
-//            coinY[i] = minTubeoffset + random.nextInt(maxTubeoffset - minTubeoffset + 1) + Coinoffset;
+
+        for(int i=0; i<tubes.getNumOfTubes();i++){
+            tubes.DisplayTubes(dWidth,i);
+            coin.CoinSetPosition(dWidth,i);
+        }
     }
 
 
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(final Canvas canvas) {
         // this function will draw the elements on the canvas
         super.onDraw(canvas);
         Paint paint = new Paint();
         paint.setTextSize(48);
         paint.setColor(Color.BLACK);
         paint.setTypeface(Typeface.create("Arial", Typeface.BOLD));
-        canvas.drawBitmap(background,null,rect,null);
+        if(bird.getPoints() > 3){
+            canvas.drawBitmap(nightBackground,null,rect,null);
+        }else{
+            canvas.drawBitmap(background,null,rect,null);
+        }
+
+
 
         bird.BirdFrameEngine();
+        coin.CoinFrameEngine();
 
-        if(coinFrame == 0) {
-            coinFrame = 1;
-        }else if (coinFrame == 1){
-            coinFrame = 2;
-        }else if(coinFrame == 2){
-            coinFrame = 3;
-        }else if(coinFrame == 3){
-            coinFrame = 0;
-        }
 
 
         if(gameState) {
@@ -152,47 +168,32 @@ class GameView extends View {
                 bird.BirdUpdate();
             }
             for (int i = 0; i < tubes.getNumOfTubes(); i++) {
-                tubes.getTubeX()[i] -= tubes.getTubeVelocity();
-//                coinX[i] -= tubeVelocity;
-
-                if(tubes.getTubeX()[i] < - tubes.getTopTube().getWidth()) {
-                    tubes.getTubeX()[i] += tubes.getNumOfTubes() * tubes.getDistancebetweenTubes();
-                    tubes.getTopTubeY()[i] = tubes.getMinTubeoffset() + random.nextInt(tubes.getMaxTubeoffset() - tubes.getMinTubeoffset() + 1);
-                }
-//                if(coinX[i] < - coins[0].getWidth()){
-//                    coinX[i] += numOfCoins * distancebetweenTubes + distancebetweenTubes/2;
-//                    coinY[i] = minTubeoffset + random.nextInt(maxTubeoffset - minTubeoffset + 1) + Coinoffset;
-//                }
-
-                if((bird.getBirdX() + birds[0].getWidth() >= tubes.tubeX[i] && bird.getBirdX() <= tubes.tubeX[i] + tubes.getTopTube().getWidth()) && !(bird.getBirdY()>= tubes.topTubeY[i] && bird.getBirdY() + birds[0].getHeight() <= tubes.topTubeY[i] + tubes.getGap()) ){
-                    isDead = true;
+                tubes.updateTubes(i);
+                coin.CoinUpdate(i);
+                tubes.GenerateNewTube(dWidth,i);
+                coin.GenerateNewCoin(dWidth,i,bird.coinCollect(coin,i));
+                if(bird.isDead(tubes,i)) {
                     gameState = false;
+                   // isDead = true;
 
-                    Intent intent = new Intent(getContext(),MainActivity.class);
+                    Intent intent = new Intent(getContext(),gameOver.class);
+                    intent.putExtra("points",bird.getPoints());
                     contextCopy.startActivity(intent);
                 }
-                else if(bird.getBirdX() <= tubes.getTubeX()[i] + tubes.getTopTube().getWidth() && bird.getBirdX() >= tubes.getTubeX()[i] + tubes.getTopTube().getWidth() - tubes.getTubeVelocity() ){
-                    gamePoints++;
+                else{
+                    if(bird.pointsGenerator(tubes,i)){
+                        mp.start();
+                    }
                 }
 
-//                canvas.drawBitmap(coins[coinFrame], coinX[i], coinY[i], null);
-                canvas.drawText("Your Points is :" + gamePoints,60,60,paint);
+                tubes.DrawTubes(canvas,i);
+                coin.DrawCoins(canvas,i);
+
             }
 
         }
-        else if(isDead) {
-            for (int i = 0; i < tubes.getNumOfTubes(); i++) {
-                gameState = false;
-                if ((bird.getBirdY() < dHeight - birds[0].getHeight() || bird.getVelocity() < 0)) {
-                    bird.BirdUpdate();
-                }
-//                canvas.drawBitmap(topTube, tubeX[i], topTubeY[i] - topTube.getHeight(), null);
-//                canvas.drawBitmap(bottomTube, tubeX[i], topTubeY[i] + gap, null);
 
-            }
-        }
-
-        tubes.DrawTubes(canvas);
+        canvas.drawText("Your Points is :" + bird.getPoints(),60,60,paint);
         bird.DrawBird(canvas);
         handler.postDelayed(runnable,UPDATE_MILLIS);
 
@@ -200,7 +201,6 @@ class GameView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
         int action = event.getAction();
         if(action == MotionEvent.ACTION_DOWN){
             if(!isDead){

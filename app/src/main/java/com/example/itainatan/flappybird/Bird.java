@@ -2,7 +2,9 @@ package com.example.itainatan.flappybird;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.media.MediaPlayer;
 import android.view.View;
+import android.widget.Toast;
 
 public class Bird {
     private int velocity;
@@ -10,9 +12,20 @@ public class Bird {
     private int birdX,birdY;
     private Bitmap[] birds;
     private int currentBirdFrame;
+    private int points;
+    private int margin;
+    private MediaPlayer mp;
 
     public Bird() {
+        this.margin = 8;
+    }
 
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     public int getVelocity() {
@@ -69,6 +82,7 @@ public class Bird {
         this.birdX = birdX;
         this.birdY = birdY;
         this.currentBirdFrame = 0;
+        this.points = 0;
     }
 
     public void BirdFrameEngine(){
@@ -82,6 +96,34 @@ public class Bird {
 
     public void DrawBird(Canvas canvas){
         canvas.drawBitmap(birds[currentBirdFrame],birdX,birdY,null);
+    }
+
+    boolean isDead(Tubes tubes ,int i){
+        if((this.birdX + this.birds[0].getWidth() >= tubes.tubeX[i] && this.birdX <= tubes.tubeX[i] + tubes.getTopTube().getWidth()) && !(this.birdY>= tubes.topTubeY[i] && this.birdY + this.birds[0].getHeight() <= tubes.topTubeY[i] + tubes.getGap()) ) {
+            return true;
+        }else
+            return false;
+        }
+
+    public boolean pointsGenerator(Tubes tubes,int i){
+        if(this.birdX <= tubes.getTubeX()[i] + tubes.getTopTube().getWidth() && this.birdX >= tubes.getTubeX()[i] + tubes.getTopTube().getWidth() - tubes.getTubeVelocity() ){
+            this.points++;
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    public boolean coinCollect(Coins coin , int i){
+
+        if( (this.birdX <= coin.getCoinX()[i] + coin.getCoins()[0].getWidth() - margin && this.birdX >= coin.getCoinX()[i] - coin.getCoinVelocity())
+            &&
+            (this.birdY >= coin.getCoinY()[i] - margin && this.birdY <= coin.getCoinY()[i]+ coin.getCoins()[0].getHeight() + margin) ){
+            this.points += 2;
+            return true;
+            }else
+            return false;
     }
 
 }
