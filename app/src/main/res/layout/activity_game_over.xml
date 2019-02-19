@@ -34,23 +34,40 @@
 
         <ImageButton
             android:layout_width="150dp"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
             android:background="@drawable/startbutton"
             android:id="@+id/gameover_gamerestart"/>
 
-        <ImageButton
-            android:layout_width="150dp"
+        <EditText
+            android:layout_width="250dp"
             android:layout_height="70dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="5dp"
+            android:hint="ENTER YOUR NAME TO SAVE THE RECORD:"
+            android:textSize="20sp"
+            android:id="@+id/gameover_textname"/>
+
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/save"
+            android:id="@+id/gameover_save"/>
+
+        <ImageButton
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/records"
             android:id="@+id/gameover_recordlist"/>
 
         <ImageButton
             android:layout_width="150dp"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
             android:background="@drawable/menu"
             android:id="@+id/gameover_backtomenu"/>

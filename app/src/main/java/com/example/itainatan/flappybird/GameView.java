@@ -57,6 +57,7 @@ class GameView extends View {
     Bitmap[] birds;
     Bitmap[] coins;
 
+
     public GameView(Context context) {
         super(context);
         contextCopy = context;
@@ -99,7 +100,7 @@ class GameView extends View {
         tubes.setTubeX();
         tubes.setDistancebetweenTubes(dWidth * 7/8);
         tubes.setTubeVelocity(12);
-        tubes.setMinTubeoffset(tubes.getGap()/2);
+        tubes.setMinTubeoffset(tubes.getGap());
         tubes.setMaxTubeoffset(dHeight - tubes.getMinTubeoffset() - tubes.getGap());
         bottomTube = BitmapFactory.decodeResource(getResources(), R.drawable.pipe_greenbottom);
         topTube = BitmapFactory.decodeResource(getResources(), R.drawable.pipe_greentop);
@@ -211,4 +212,6 @@ class GameView extends View {
 
         return true; // By returning true indicates that we finished with the touch event .
     }
+
+
 }
