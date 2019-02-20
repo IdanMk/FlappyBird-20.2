@@ -22,7 +22,8 @@
             android:theme="@style/AppTheme.PopMe" />
         <activity android:name=".Customize" />
         <activity android:name=".record_table_show" />
-        <activity android:name=".recordTableShow"></activity>
+        <activity android:name=".recordTableShow" />
+        <activity android:name=".Main2Activity"></activity>
     </application>
 
 </manifest>
