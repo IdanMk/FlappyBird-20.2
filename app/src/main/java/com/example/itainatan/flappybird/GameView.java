@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+<<<<<<< HEAD
 import android.content.res.AssetManager;
+=======
+>>>>>>> b35c06e26db04578585b4c9068bcb5ae86347df5
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -88,6 +91,10 @@ class GameView extends View {
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         String restoredText = prefs.getString("CHOOSEN_BIRD", "");
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> b35c06e26db04578585b4c9068bcb5ae86347df5
         // Bird initalize
         bird = new Bird();
         birds = new Bitmap[3];
@@ -111,6 +118,10 @@ class GameView extends View {
                 break;
             }
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> b35c06e26db04578585b4c9068bcb5ae86347df5
         bird.setBirds(birds);
         bird.setBirdX(dWidth / 2 - bird.getBirds()[0].getWidth());
         bird.setBirdY(dHeight / 2 - bird.getBirds()[0].getHeight()/2);

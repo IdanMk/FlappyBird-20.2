@@ -14,15 +14,21 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 public class MainActivity extends Activity {
+<<<<<<< HEAD
     Button PlayButton , Customize , RecordsTable;
     ImageView Logo;
+=======
+    ImageButton PlayButton, changebird, changebackground;
+>>>>>>> b35c06e26db04578585b4c9068bcb5ae86347df5
     public static final String MY_PREFS_NAME = "RECORD_TABLE";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         PlayButton = findViewById(R.id.homepage_playbutton);
+<<<<<<< HEAD
         Customize = findViewById(R.id.homepage_backgroundChange);
         RecordsTable = findViewById(R.id.homepage_recordbutton);
 
@@ -61,6 +67,10 @@ public class MainActivity extends Activity {
             @Override
             public void onAnimationRepeat(Animation animation) {}
         });
+=======
+        changebird= findViewById(R.id.homepage_changebird);
+        changebackground= findViewById(R.id.homepage_changebackground);
+>>>>>>> b35c06e26db04578585b4c9068bcb5ae86347df5
 
         // Play button onclick event in order to start the game
         PlayButton.setOnClickListener(new View.OnClickListener() {
@@ -68,12 +78,24 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 Intent intent2 = new Intent(MainActivity.this,StartGame.class);
                 startActivity(intent2);
-
                 Intent intent = new Intent(MainActivity.this,startDialog.class);
                 startActivity(intent);
+<<<<<<< HEAD
+=======
             }
         });
+
+        changebird.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = new Intent(MainActivity.this,Changebird.class);
+                startActivity(intent2);
+>>>>>>> b35c06e26db04578585b4c9068bcb5ae86347df5
+            }
+        });
+
     }
+
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);

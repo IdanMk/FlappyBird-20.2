@@ -2,6 +2,7 @@ package com.example.itainatan.flappybird;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ public class StartGame extends Activity {
 
     GameView gameView;
     TextView pointsTV;
+    public static final String MY_PREFS_NAME = "RECORD_TABLE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +20,8 @@ public class StartGame extends Activity {
         pointsTV = findViewById(R.id.game_points);
         gameView = new GameView(this);
         setContentView(gameView);
+
+
     }
 
     public void onBackPressed() {
