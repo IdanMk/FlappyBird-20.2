@@ -20,13 +20,9 @@
         <activity
             android:name=".startDialog"
             android:theme="@style/AppTheme.PopMe" />
-<<<<<<< HEAD
         <activity android:name=".Customize" />
         <activity android:name=".record_table_show" />
         <activity android:name=".recordTableShow"></activity>
-=======
-        <activity android:name=".Changebird"></activity>
->>>>>>> b35c06e26db04578585b4c9068bcb5ae86347df5
     </application>
 
 </manifest>
