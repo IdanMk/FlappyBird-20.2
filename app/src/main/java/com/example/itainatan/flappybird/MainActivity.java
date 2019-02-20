@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
     Button PlayButton , Customize , RecordsTable;
@@ -27,6 +28,14 @@ public class MainActivity extends Activity {
         RecordsTable = findViewById(R.id.homepage_recordbutton);
 
         Logo = findViewById(R.id.homepage_logo);
+        Button testBTN = findViewById(R.id.test);
+
+        testBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "test", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Animation LogoAnimation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.logo_movement);
         final Animation ltrButtonAnimation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.ltr_button_animation);
@@ -61,6 +70,8 @@ public class MainActivity extends Activity {
             @Override
             public void onAnimationRepeat(Animation animation) {}
         });
+
+
 
         // Play button onclick event in order to start the game
         PlayButton.setOnClickListener(new View.OnClickListener() {
