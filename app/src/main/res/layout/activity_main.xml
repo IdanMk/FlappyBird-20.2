@@ -5,49 +5,91 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@drawable/background_day"
-    android:id="@+id/homepage_welcomepage">
+    android:background="@drawable/homepage_background"
+    android:id="@+id/homepage_welcomepage"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@drawable/logo"
-            android:layout_margin="35dp"/>
+            android:layout_margin="35dp"
+            android:id="@+id/homepage_logo"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp">
 
-            <ImageButton
+            <Button
                 android:layout_width="0dp"
-                android:layout_height="70dp"
+                android:layout_height="80dp"
                 android:scaleType="fitXY"
-                android:background="@null"
+                android:background="#fff"
                 android:layout_weight="1"
                 android:layout_gravity="center"
-                android:src="@drawable/startbutton"
+                android:fontFamily="@font/felipa"
+                android:textStyle="bold"
+                android:textColor="@color/mainColor"
+                android:textSize="40sp"
+                android:text="Play"
                 android:id="@+id/homepage_playbutton"
-                android:paddingEnd="10dp"
-                android:paddingStart="20dp"/>
+                android:visibility="invisible"/>
 
-            <ImageButton
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp">
+
+            <Button
                 android:layout_width="0dp"
-                android:layout_height="70dp"
+                android:layout_height="80dp"
                 android:scaleType="fitXY"
-                android:background="@null"
+                android:background="@color/mainColor"
                 android:layout_weight="1"
                 android:layout_gravity="center"
-                android:src="@drawable/records"
+                android:fontFamily="@font/felipa"
+                android:textColor="#fff"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:text="Records"
                 android:id="@+id/homepage_recordbutton"
                 android:paddingStart="10dp"
-                android:paddingEnd="20dp"/>
+                android:paddingEnd="20dp"
+                android:visibility="invisible"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:scaleType="fitXY"
+                android:fontFamily="@font/felipa"
+                android:textColor="#fff"
+                android:text="Choose your game"
+                android:textStyle="bold"
+                android:background="@color/secondaryColor"
+                android:textSize="30sp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                android:id="@+id/homepage_backgroundChange" />
 
         </LinearLayout>
 

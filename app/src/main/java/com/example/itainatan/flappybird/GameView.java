@@ -3,6 +3,8 @@ package com.example.itainatan.flappybird;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -22,7 +24,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
 import java.util.Random;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 class GameView extends View {
@@ -50,6 +55,7 @@ class GameView extends View {
     boolean isFirstRun = true;
 
     MediaPlayer mp;
+    public static final String MY_PREFS_NAME = "RECORD_TABLE";
 
 
     Bitmap[] gameStart;
@@ -79,12 +85,32 @@ class GameView extends View {
         random = new Random();
         mp = MediaPlayer.create(contextCopy,R.raw.point);
 
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String restoredText = prefs.getString("CHOOSEN_BIRD", "");
+
         // Bird initalize
         bird = new Bird();
         birds = new Bitmap[3];
-        birds[0] = BitmapFactory.decodeResource(getResources(), R.drawable.yellowbird_1);
-        birds[1] = BitmapFactory.decodeResource(getResources(), R.drawable.yellowbird_2);
-        birds[2] = BitmapFactory.decodeResource(getResources(), R.drawable.yellowbird_3);
+        switch (restoredText){
+            case "1":{
+                birds[0] = BitmapFactory.decodeResource(getResources(), R.drawable.bluebird_1);
+                birds[1] = BitmapFactory.decodeResource(getResources(), R.drawable.bluebird_2);
+                birds[2] = BitmapFactory.decodeResource(getResources(), R.drawable.bluebird_3);
+                break;
+            }
+            case "2":{
+                birds[0] = BitmapFactory.decodeResource(getResources(), R.drawable.redbird_1);
+                birds[1] = BitmapFactory.decodeResource(getResources(), R.drawable.redbird_2);
+                birds[2] = BitmapFactory.decodeResource(getResources(), R.drawable.redbird_3);
+                break;
+            }
+            case "3":{
+                birds[0] = BitmapFactory.decodeResource(getResources(), R.drawable.yellowbird_1);
+                birds[1] = BitmapFactory.decodeResource(getResources(), R.drawable.yellowbird_2);
+                birds[2] = BitmapFactory.decodeResource(getResources(), R.drawable.yellowbird_3);
+                break;
+            }
+        }
         bird.setBirds(birds);
         bird.setBirdX(dWidth / 2 - bird.getBirds()[0].getWidth());
         bird.setBirdY(dHeight / 2 - bird.getBirds()[0].getHeight()/2);
@@ -148,9 +174,12 @@ class GameView extends View {
         // this function will draw the elements on the canvas
         super.onDraw(canvas);
         Paint paint = new Paint();
-        paint.setTextSize(48);
-        paint.setColor(Color.BLACK);
-        paint.setTypeface(Typeface.create("Arial", Typeface.BOLD));
+        paint.setTextSize(64);
+        paint.setColor(Color.WHITE);
+        AssetManager am = contextCopy.getApplicationContext().getAssets();
+
+        paint.setTypeface(Typeface.createFromAsset(am,
+                String.format(Locale.US, "fonts/%s", "junegull.ttf")));
         if(bird.getPoints() > 3){
             canvas.drawBitmap(nightBackground,null,rect,null);
         }else{
@@ -191,10 +220,9 @@ class GameView extends View {
                 coin.DrawCoins(canvas,i);
 
             }
-
         }
 
-        canvas.drawText("Your Points is :" + bird.getPoints(),60,60,paint);
+        canvas.drawText("Your Points is :" + bird.getPoints(),60,100,paint);
         bird.DrawBird(canvas);
         handler.postDelayed(runnable,UPDATE_MILLIS);
 
