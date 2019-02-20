@@ -20,6 +20,7 @@
         <activity
             android:name=".startDialog"
             android:theme="@style/AppTheme.PopMe" />
+        <activity android:name=".Changebird"></activity>
     </application>
 
 </manifest>

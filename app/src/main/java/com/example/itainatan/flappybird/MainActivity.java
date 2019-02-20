@@ -9,32 +9,39 @@ import android.view.View;
 import android.widget.ImageButton;
 
 public class MainActivity extends Activity {
-    ImageButton PlayButton;
+    ImageButton PlayButton, changebird, changebackground;
     public static final String MY_PREFS_NAME = "RECORD_TABLE";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         PlayButton = findViewById(R.id.homepage_playbutton);
-
-
-
+        changebird= findViewById(R.id.homepage_changebird);
+        changebackground= findViewById(R.id.homepage_changebackground);
 
         // Play button onclick event in order to start the game
         PlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent2 = new Intent(MainActivity.this,StartGame.class);
                 startActivity(intent2);
-
                 Intent intent = new Intent(MainActivity.this,startDialog.class);
                 startActivity(intent);
-
             }
         });
+
+        changebird.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = new Intent(MainActivity.this,Changebird.class);
+                startActivity(intent2);
+            }
+        });
+
     }
+
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
