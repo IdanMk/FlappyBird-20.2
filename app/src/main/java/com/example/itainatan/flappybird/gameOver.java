@@ -2,6 +2,7 @@ package com.example.itainatan.flappybird;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,9 +22,9 @@ public class gameOver extends AppCompatActivity {
     int points;
     TextView pointTV;
     EditText gameovertext;
-    ImageButton restart,records,menu, save;
+    ImageButton restart,menu, save,recordlist;
     String name;
-    private ArrayList<listOfRecord>  myList = new ArrayList<>();
+    private ArrayList<listOfRecord>  myList;
 
 
     public static final String MY_PREFS_NAME = "RECORD_TABLE";
@@ -34,12 +35,13 @@ public class gameOver extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_over);
         points = getIntent().getIntExtra("points",0);
+        myList = new ArrayList<>();
 
         menu = findViewById(R.id.gameover_backtomenu);
         restart = findViewById(R.id.gameover_gamerestart);
-        records = findViewById(R.id.gameover_recordlist);
         save = findViewById(R.id.gameover_save);
         gameovertext=findViewById(R.id.gameover_textname);
+        recordlist = findViewById(R.id.gameover_recordlist);
 
 
         pointTV = findViewById(R.id.gameover_gamepoints);
@@ -64,34 +66,52 @@ public class gameOver extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 name = gameovertext.getText().toString();
                 if(name.isEmpty()) {
-                    Toast.makeText(gameOver.this, "Enter a name!",
+                    Toast.makeText(gameOver.this, "Please enter your name!",
                             Toast.LENGTH_SHORT).show();
                     return;}
 
-                gameovertext.setText("SAVED!");
+
                 SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
                 String restoredText = prefs.getString("JSON", "");
                 Gson gson = new Gson();
-                String json;
-                if(restoredText!="") {
+
+                if(restoredText != "") {
                     listOfRecord[] list = gson.fromJson(restoredText, listOfRecord[].class);
                     for (int k = 0; k < list.length; k++) {
                         myList.add(list[k]);
                     }
+
                 }
-                listOfRecord lor = new listOfRecord(name, points);
-                myList.add(lor);
+
+
+                listOfRecord newRecord = new listOfRecord(name, points);
+                myList.add(newRecord);
+
                 SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                json = gson.toJson(myList);
+                String json = gson.toJson(myList);
                 editor.putString("JSON", json);
                 editor.apply();
+
+                gameovertext.setText("SAVED!");
                 gameovertext.setEnabled(false);
                 save.setEnabled(false);
+
+            }
+        });
+        recordlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(gameOver.this,recordTableShow.class);
+                startActivity(intent);
+
             }
         });
     }
+
 
     @Override
     public void onBackPressed() {
